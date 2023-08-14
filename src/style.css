@@ -95,3 +95,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Mi CSS */
+
+#botonCarta:hover{
+  color: gold;
+}
+
+#puntuacion{
+  padding: 10px;
+}
