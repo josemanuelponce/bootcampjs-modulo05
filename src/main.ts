@@ -71,11 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
 // Funcion para mostrar carta
 
 const mostrarCarta = (valorCarta: number): void => {
-    const cartaImg: HTMLImageElement = document.getElementById("cartaImg") as HTMLImageElement;
+    const cartaImg= document.getElementById("cartaImg");
+    if(cartaImg !== null && cartaImg !== undefined && cartaImg instanceof HTMLImageElement){
     switch (valorCarta) {
         case 1:
             cartaImg.src = "/src/img/1_as-copas.jpg";
@@ -110,10 +110,11 @@ const mostrarCarta = (valorCarta: number): void => {
         default:
             cartaImg.src = "https://github.com/Lemoncode/fotos-ejemplos/blob/main/cartas/back.jpg";
     }
+}
 };
 
-// Funcion para boton Me planto
 
+// Funcion para mostrar un mensaje
 const mostrarMensaje = (mensaje: string) => {
     const elementoMensaje = document.getElementById("mensaje");
     if (elementoMensaje) {
@@ -124,10 +125,64 @@ const mostrarMensaje = (mensaje: string) => {
 
 };
 
-const BotonPlantarse = document.getElementById("BotonPlantarse") as HTMLButtonElement;
+
+
+
+// Funcion para nueva partida
+
+const nuevaPartida = () => {
+    puntuacion = 0;
+    juegoTerminado = false;
+    muestraPuntuacion();
+    mostrarMensaje("");
+};
+
+const nuevaPartidabtn = document.getElementById("nueva");
+if (nuevaPartidabtn !== null && nuevaPartidabtn !== undefined) {
+nuevaPartidabtn.addEventListener("click", nuevaPartida);
+}
+
+document.addEventListener("DOMContentLoaded", muestraPuntuacion);
+
+
+
+const botonCarta = document.getElementById("botonCarta");
+if (botonCarta !== null && botonCarta !== undefined) {
+botonCarta.addEventListener("click",() => {
+    if (!juegoTerminado) {
+        const cartaElegida = dameCarta();
+        if (cartaElegida) {
+            console.log("carta elegida:", cartaElegida);
+            mostrarCarta(cartaElegida);
+            mostrarMensaje("");
+        }
+    }
+});
+}
+
+const seguir = document.getElementById("seguir");
+if (seguir !== null && seguir !== undefined) {
+    seguir.addEventListener("click",() => {
+        if (!juegoTerminado) {
+            const cartaElegida = dameCarta();
+            if (cartaElegida) {
+                console.log("carta elegida:", cartaElegida);
+                mostrarCarta(cartaElegida);
+                mostrarMensaje("");
+                
+            }
+        }
+    });
+
+}
+
+// Funcion para boton Me planto
+
+const BotonPlantarse = document.getElementById("BotonPlantarse");
+if(BotonPlantarse !== null && BotonPlantarse !== undefined && BotonPlantarse instanceof HTMLButtonElement){
+    
 BotonPlantarse.addEventListener("click", () => {
     juegoTerminado = true;
-    muestraPuntuacion();
     
     let mensaje = ""; // Inicializa el mensaje vacío
     
@@ -145,37 +200,7 @@ BotonPlantarse.addEventListener("click", () => {
     
     mostrarMensaje(mensaje);
 });
-
-// Funcion para nueva partida
-
-const nuevaPartida = () => {
-    puntuacion = 0;
-    juegoTerminado = false;
-    muestraPuntuacion();
-    mostrarMensaje("");
-};
-
-const nuevaPartidabtn = document.getElementById("nueva") as HTMLButtonElement;
-nuevaPartidabtn.addEventListener("click", nuevaPartida);
-
-
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
-
-
-
-const botonCarta = document.getElementById("botonCarta") as HTMLButtonElement;
-botonCarta.addEventListener("click",() => {
-    if (!juegoTerminado) {
-        const cartaElegida = dameCarta();
-        if (cartaElegida) {
-            console.log("carta elegida:", cartaElegida);
-            mostrarCarta(cartaElegida);
-            mostrarMensaje("");
-        }
-    }
-});
-
-
+}
 
 
 
