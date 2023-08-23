@@ -1,57 +1,53 @@
 // Variables
 let puntuacion = 0;
-let juegoTerminado = false;
-let mensaje = "";
 
 // Funcion para generar numero aleatorio y para no incluir el numero , 8, 9.
 const generarNumeroAleatorio = (): number => {
    return Math.floor(Math.random() * 10);
     
 }
-
-const generarCarta = (numero : number): number => {
-    if (numero > 7){
-        return numero + 2;
-    }else{
-        return numero;
+// Funcion para generar carta
+const generarCarta = (numero: number): number => {
+    if (numero === 0) {
+        return 1;
     }
-}
-
-// Funcion para generar carta aleatoria
-const generarCartaAleatoria = (): number => {
-    let valorCarta: number = generarNumeroAleatorio();
-
-    if (valorCarta === 7 || valorCarta === 8 || valorCarta === 9) {
-        valorCarta = generarCartaAleatoria(); 
-    }
-
-    return valorCarta;
+    return numero > 7 ? numero + 2 : numero
+    
 };
+
 
 // Funcion para poner valor a cada carta
 const calcularCarta = (valorCarta: number): number => {
-    if (valorCarta === 1) {
-        return 1;
-    } else if (valorCarta >= 2 && valorCarta <= 7) {
+    if (valorCarta > 7) {
+        return 0.5
+    }else{
         return valorCarta;
-    } else if (valorCarta >= 8 && valorCarta <= 10) {
-        return 0.5;
-    } else {
-        return 0;
     }
 };
 
-// Funcion para comprobar si ganaste o perdiste
-const comprobarPartida = () => {
-    if (puntuacion < 7.5) {
-        mensaje = "";
-    }else if (puntuacion === 7.5){
-        mensaje = "¡Lo has clavado! ¡Enhorabuena!";
-    }else{
-        mensaje = "Game Over";
+// Funcion para bloquear botones
+const bloquearBoton = (estaBloqueado: boolean) => {
+    const bloquearCarta = document.getElementById("botonCarta");
+    if(bloquearCarta !== null && bloquearCarta !== undefined && bloquearCarta instanceof HTMLButtonElement){
+        bloquearCarta.disabled = estaBloqueado;
     }
-    mostrarMensaje(mensaje);
-    
+};
+
+
+// Funcion ganar partida
+const ganarPartida = () => {
+    if (puntuacion === 7.5){
+        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+        bloquearBoton(true);
+    }
+};
+
+// Funcion perder partida
+const perderPartida = () => {
+    if (puntuacion > 7.5) {
+        mostrarMensaje("Game Over");
+        bloquearBoton(true);
+    }
 };
 
 
@@ -59,16 +55,17 @@ const comprobarPartida = () => {
 const comprobarPlantarse = () => {
     
     if (puntuacion <= 4 || puntuacion === 4.5) {
-        mensaje = "Has sido muy conservador";
+        mostrarMensaje("Has sido muy conservador");
     } else if (puntuacion === 5 || puntuacion === 5.5) {
-        mensaje = "Te ha entrado el canguelo eh?";
+        mostrarMensaje("Te ha entrado el canguelo eh?");
     } else if (puntuacion <= 6 || puntuacion === 6.5 || puntuacion === 7) {
-        mensaje = "Casi casi...";
+        mostrarMensaje("Casi casi...");
     } else if (puntuacion === 7.5) {
-        mensaje = "¡Lo has clavado! ¡Enhorabuena!";
+        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
     }else {
-        mensaje = "Game Over";
+        mostrarMensaje("Game Over");
     }
+    bloquearBoton(true);
 };
 
 
@@ -130,13 +127,13 @@ const dameCarta = () => {
     mostrarCarta(carta);
     const valor = calcularCarta(numeroAleatorio);
     puntuacion += valor;
-    comprobarPartida();
+    ganarPartida();
+    perderPartida();
     muestraPuntuacion();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     puntuacion = 0; 
-    juegoTerminado = false;
     muestraPuntuacion();
     mostrarMensaje("");
 });
@@ -166,14 +163,12 @@ const seguirPidiendo = () => {
 };
 
 
-
-
 // Funcion para nueva partida
 const nuevaPartida = () => {
     puntuacion = 0;
-    juegoTerminado = false;
     muestraPuntuacion();
     mostrarMensaje("");
+    bloquearBoton(false);
 };
 
 
@@ -187,33 +182,23 @@ document.addEventListener("DOMContentLoaded", muestraPuntuacion);
 
 
 // Boton para dar carta
-const botonCarta = document.getElementById("botonCarta");
-if (botonCarta !== null && botonCarta !== undefined && botonCarta instanceof HTMLButtonElement) {
-botonCarta.addEventListener("click",() => {
-    dameCarta();
-});
+const BotonCarta = document.getElementById("botonCarta");
+if (BotonCarta !== null && BotonCarta !== undefined && BotonCarta instanceof HTMLButtonElement) {
+BotonCarta.addEventListener("click",() => dameCarta());
 }
 
 
 // Boton para boton Me planto
 const BotonPlantarse = document.getElementById("BotonPlantarse");
 if(BotonPlantarse !== null && BotonPlantarse !== undefined && BotonPlantarse instanceof HTMLButtonElement){
-    
-BotonPlantarse.addEventListener("click", () => {
-    juegoTerminado = true;
-    comprobarPlantarse();
-    mostrarMensaje(mensaje);
-    
-});
+BotonPlantarse.addEventListener("click", () => comprobarPlantarse());
 }
 
 // Boton para mostrar las cartas despues de plantarse para saber que habria pasado
-const seguir = document.getElementById("seguir");
-if (seguir !== null && seguir !== undefined && seguir instanceof HTMLButtonElement) {
-seguir.addEventListener("click",() => {
-    seguirPidiendo();
-    
-});
+const Seguir = document.getElementById("seguir");
+
+if (Seguir !== null && Seguir !== undefined && Seguir instanceof HTMLButtonElement) {
+Seguir.addEventListener("click",() => seguirPidiendo());
 }
 
 
