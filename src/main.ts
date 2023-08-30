@@ -25,6 +25,10 @@ const calcularCarta = (valorCarta: number): number => {
     }
 };
 
+const sumarPuntos = (valor : number) => {
+    puntuacion += valor;
+};
+
 // Funcion para bloquear botones
 const bloquearBoton = (estaBloqueado: boolean) => {
     const bloquearCarta = document.getElementById("botonCarta");
@@ -33,22 +37,17 @@ const bloquearBoton = (estaBloqueado: boolean) => {
     }
 };
 
-
-// Funcion ganar partida
-const ganarPartida = () => {
+// Funcion para ganar o perder la partida
+const gestionarPartida = () => {
     if (puntuacion === 7.5){
         mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
         bloquearBoton(true);
     }
-};
-
-// Funcion perder partida
-const perderPartida = () => {
     if (puntuacion > 7.5) {
         mostrarMensaje("Game Over");
         bloquearBoton(true);
     }
-};
+}
 
 
 // Funcion para comprobar como te quedaste de cerca cuando le das a plantarse
@@ -126,9 +125,8 @@ const dameCarta = () => {
     const carta = generarCarta(numeroAleatorio);
     mostrarCarta(carta);
     const valor = calcularCarta(numeroAleatorio);
-    puntuacion += valor;
-    ganarPartida();
-    perderPartida();
+    sumarPuntos(valor);
+    gestionarPartida()
     muestraPuntuacion();
 };
 
@@ -159,7 +157,10 @@ const seguirPidiendo = () => {
     const carta = generarCarta(numeroAleatorio);
     mostrarCarta(carta);
     const valor = calcularCarta(numeroAleatorio);
-    puntuacion += valor;
+    sumarPuntos(valor);
+    muestraPuntuacion();
+    comprobarPlantarse();
+    gestionarPartida();
 };
 
 
