@@ -30,48 +30,92 @@ const sumarPuntos = (valor : number) => {
 };
 
 // Funcion para bloquear botones
-const bloquearBoton = (estaBloqueado: boolean) => {
+const bloquearCartaDAR = (estaBloqueado: boolean) => {
     const bloquearCarta = document.getElementById("botonCarta");
     if(bloquearCarta !== null && bloquearCarta !== undefined && bloquearCarta instanceof HTMLButtonElement){
         bloquearCarta.disabled = estaBloqueado;
     }
 };
 
+// Funcion bloquear boton para seguir
+const bloquearCartaSeguir = (estaBloqueado: boolean) => {
+    const bloquearCarta = document.getElementById("seguir");
+    if(bloquearCarta !== null && bloquearCarta !== undefined && bloquearCarta instanceof HTMLButtonElement){
+        bloquearCarta.disabled = estaBloqueado;
+    }
+};
+
+bloquearCartaSeguir(true);
+
+// Funcion bloquear boton Me planto
+const bloquearCartaPlanto = (estaBloqueado: boolean) => {
+    const bloquearCarta = document.getElementById("BotonPlantarse");
+    if(bloquearCarta !== null && bloquearCarta !== undefined && bloquearCarta instanceof HTMLButtonElement){
+        bloquearCarta.disabled = estaBloqueado;
+    }
+};
+
+
 // Funcion para ganar o perder la partida
 const gestionarPartida = () => {
     if (puntuacion === 7.5){
-        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
-        bloquearBoton(true);
+        ganarPartida();
     }
     if (puntuacion > 7.5) {
-        mostrarMensaje("Game Over");
-        bloquearBoton(true);
+        perderPartida();
     }
-}
+};
+
+// Funcion para ganar partida
+const ganarPartida = () => {
+    if (puntuacion === 7.5){
+        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+        bloquearCartaDAR(true);
+        bloquearCartaSeguir(true);
+    }
+};
+
+// Funcion para perder partida
+const perderPartida = () => {
+    if (puntuacion > 7.5) {
+        mostrarMensaje("Game Over");
+        bloquearCartaDAR(true);
+        bloquearCartaSeguir(true);
+    }
+};
 
 
 // Funcion para comprobar como te quedaste de cerca cuando le das a plantarse
 const comprobarPlantarse = () => {
+    const mensaje = devolverMensajePlantarse();
+    mostrarMensaje(mensaje);
     
+    bloquearCartaDAR(true);
+    bloquearCartaPlanto(true);
+    bloquearCartaSeguir(false);
+    gestionarPartida();
+};
+
+const devolverMensajePlantarse = () => {
     if (puntuacion <= 4 || puntuacion === 4.5) {
-        mostrarMensaje("Has sido muy conservador");
+        return"Has sido muy conservador";
     } else if (puntuacion === 5 || puntuacion === 5.5) {
-        mostrarMensaje("Te ha entrado el canguelo eh?");
+        return"Te ha entrado el canguelo eh?";
     } else if (puntuacion <= 6 || puntuacion === 6.5 || puntuacion === 7) {
-        mostrarMensaje("Casi casi...");
+        return"Casi casi...";
     } else if (puntuacion === 7.5) {
-        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+        return"¡Lo has clavado! ¡Enhorabuena!";
     }else {
-        mostrarMensaje("Game Over");
+        return"Game Over";
     }
-    bloquearBoton(true);
+    
 };
 
 
 // Funcion para mostrar puntuacion y game over
 const muestraPuntuacion = () => {
     const elementoPuntuacion = document.getElementById("puntuacion");
-    if (elementoPuntuacion !== null && elementoPuntuacion !== undefined && elementoPuntuacion) {
+    if (elementoPuntuacion !== null && elementoPuntuacion !== undefined && elementoPuntuacion instanceof HTMLDivElement) {
         elementoPuntuacion.innerHTML = `Tu puntuacion es ${puntuacion}`;
     }
 
@@ -126,7 +170,7 @@ const dameCarta = () => {
     mostrarCarta(carta);
     const valor = calcularCarta(numeroAleatorio);
     sumarPuntos(valor);
-    gestionarPartida()
+    gestionarPartida();
     muestraPuntuacion();
 };
 
@@ -158,24 +202,29 @@ const seguirPidiendo = () => {
     mostrarCarta(carta);
     const valor = calcularCarta(numeroAleatorio);
     sumarPuntos(valor);
+    gestionarPartida();
     muestraPuntuacion();
     comprobarPlantarse();
-    gestionarPartida();
+    
 };
 
 
 // Funcion para nueva partida
 const nuevaPartida = () => {
+    
     puntuacion = 0;
     muestraPuntuacion();
     mostrarMensaje("");
-    bloquearBoton(false);
+    bloquearCartaDAR(false);
+    bloquearCartaSeguir(true);
+    bloquearCartaPlanto(false);
+    mostrarCarta(13);
 };
 
 
 // Boton para empezar una nueva partida
 const nuevaPartidabtn = document.getElementById("nueva");
-if (nuevaPartidabtn !== null && nuevaPartidabtn !== undefined) {
+if (nuevaPartidabtn !== null && nuevaPartidabtn !== undefined && nuevaPartidabtn instanceof HTMLButtonElement) {
 nuevaPartidabtn.addEventListener("click", nuevaPartida);
 }
 
