@@ -45,7 +45,6 @@ const bloquearCartaSeguir = (estaBloqueado: boolean) => {
     }
 };
 
-bloquearCartaSeguir(true);
 
 // Funcion bloquear boton Me planto
 const bloquearCartaPlanto = (estaBloqueado: boolean) => {
@@ -178,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     puntuacion = 0; 
     muestraPuntuacion();
     mostrarMensaje("");
+    bloquearCartaSeguir(true);
 });
 
 
