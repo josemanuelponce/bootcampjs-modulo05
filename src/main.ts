@@ -59,28 +59,30 @@ const bloquearCartaPlanto = (estaBloqueado: boolean) => {
 const gestionarPartida = () => {
     if (puntuacion === 7.5){
         ganarPartida();
+        bloquearCartaPlanto(true);
     }
     if (puntuacion > 7.5) {
         perderPartida();
+        bloquearCartaPlanto(true);
     }
 };
 
 // Funcion para ganar partida
 const ganarPartida = () => {
-    if (puntuacion === 7.5){
-        mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
-        bloquearCartaDAR(true);
-        bloquearCartaSeguir(true);
-    }
+    puntuacion === 7.5
+    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+    bloquearCartaDAR(true);
+    bloquearCartaSeguir(true);
+    
 };
 
 // Funcion para perder partida
 const perderPartida = () => {
-    if (puntuacion > 7.5) {
-        mostrarMensaje("Game Over");
-        bloquearCartaDAR(true);
-        bloquearCartaSeguir(true);
-    }
+    puntuacion > 7.5
+    mostrarMensaje("Game Over");
+    bloquearCartaDAR(true);
+    bloquearCartaSeguir(true);
+    
 };
 
 
@@ -173,11 +175,15 @@ const dameCarta = () => {
     muestraPuntuacion();
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+const iniciarPartida = () => {
     puntuacion = 0; 
     muestraPuntuacion();
     mostrarMensaje("");
     bloquearCartaSeguir(true);
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    iniciarPartida();
 });
 
 
