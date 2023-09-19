@@ -69,7 +69,6 @@ const gestionarPartida = () => {
 
 // Funcion para ganar partida
 const ganarPartida = () => {
-    puntuacion === 7.5
     mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
     bloquearCartaDAR(true);
     bloquearCartaSeguir(true);
@@ -78,7 +77,6 @@ const ganarPartida = () => {
 
 // Funcion para perder partida
 const perderPartida = () => {
-    puntuacion > 7.5
     mostrarMensaje("Game Over");
     bloquearCartaDAR(true);
     bloquearCartaSeguir(true);
