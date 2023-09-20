@@ -167,7 +167,7 @@ const dameCarta = () => {
     const numeroAleatorio = generarNumeroAleatorio();
     const carta = generarCarta(numeroAleatorio);
     mostrarCarta(carta);
-    const valor = calcularCarta(numeroAleatorio);
+    const valor = calcularCarta(carta);
     sumarPuntos(valor);
     gestionarPartida();
     muestraPuntuacion();
@@ -204,11 +204,12 @@ const seguirPidiendo = () => {
     const numeroAleatorio = generarNumeroAleatorio();
     const carta = generarCarta(numeroAleatorio);
     mostrarCarta(carta);
-    const valor = calcularCarta(numeroAleatorio);
+    const valor = calcularCarta(carta);
     sumarPuntos(valor);
     gestionarPartida();
     muestraPuntuacion();
     comprobarPlantarse();
+    bloquearCartaSeguir(true);
     
 };
 
